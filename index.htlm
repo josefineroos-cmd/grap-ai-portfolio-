@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Generative AI for Work & Research – Portfolio | Josefine Roos</title>
+  <meta name="description" content="Portfolio site for the Generative AI for Work & Research course – projects, modules, and professional profile of Josefine Roos." />
+  <style>
+    :root{
+      --bg-start:#186b5f; /* teal */
+      --bg-mid:#1f806f;  /* teal deeper */
+      --bg-end:#197a6c;  /* teal end */
+      --acc-1:#ff6f61;   /* coral button */
+      --acc-2:#f5b98f;   /* peach panel */
+      --acc-3:#6f3df4;   /* violet band */
+      --text:#f8fafc;
+      --muted:#e6f0eecc;
+      --card:#124f48cc;
+      --glass:rgba(255,255,255,0.05);
+      --border:rgba(255,255,255,0.16);
+      --shadow: 0 10px 30px rgba(0,0,0,.25);
+      --radius: 18px;
+      --radius-xl: 26px;
+      --max: 1100px;
+    }
+
+    /* Page background */
+    body{
+      margin:0; color:var(--text); font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: linear-gradient(180deg, var(--bg-start), var(--bg-mid) 60%, var(--bg-end));
+      min-height:100dvh;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
+
+    /* Subtle animated accent blobs (disabled for flat look) */
+    .blob{ display:none; }
+    .b1{ width:420px; height:420px; top:-80px; left:-60px; background: radial-gradient(circle at 30% 30%, var(--acc-1), transparent 60%); }
+    .b2{ width:520px; height:520px; bottom:-120px; right:-60px; background: radial-gradient(circle at 70% 30%, var(--acc-2), transparent 60%); animation-delay: -8s; }
+    .b3{ width:460px; height:460px; top:40%; left:55%; background: radial-gradient(circle at 40% 60%, var(--acc-3), transparent 60%); animation-delay: -14s; }
+    @keyframes float { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-20px) } }
+
+    /* Layout */
+    .wrap{ width:min(100%, var(--max)); margin-inline:auto; padding: 0 20px; }
+
+    /* Header / Nav */
+    header{
+      position: sticky; top:0; z-index: 20; backdrop-filter: blur(10px); background: linear-gradient(180deg, rgba(7,10,22,.65), rgba(7,10,22,.25)); border-bottom:1px solid var(--border);
+    }
+    .nav{ display:flex; align-items:center; justify-content:space-between; padding:14px 0; }
+    .brand{ display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.3px; }
+    .brand .logo{ width:34px; height:34px; border-radius:50%; background: conic-gradient(from 210deg, var(--acc-1), var(--acc-2), var(--acc-3)); box-shadow: 0 0 0 2px rgba(255,255,255,.1) inset; }
+    .brand span{ font-size:15px; color:var(--muted) }
+    nav a{ color:var(--text); text-decoration:none; padding:10px 12px; border-radius:12px; border:1px solid transparent; opacity:.9; }
+    nav a:hover{ border-color: var(--border); background: var(--glass); }
+
+    /* Hero */
+    .hero{ padding: 80px 0 120px; position:relative; background: var(--bg-start); }
+    .hero .grid{ display:grid; gap:28px; grid-template-columns: 1.2fr .8fr; align-items:center; }
+    .h-title{ font-size: clamp(28px, 4vw, 48px); line-height:1.08; margin:0 0 12px; }
+    .h-sub{ color:var(--muted); font-size: clamp(16px, 1.4vw, 18px); margin:0 0 22px; }
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; }
+    .chip{ padding:8px 12px; border:1px solid var(--border); border-radius:999px; background: var(--glass); font-size:13px; }
+
+    .hero-card{ background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); border:1px solid var(--border); border-radius: var(--radius-xl); padding:22px; box-shadow: var(--shadow); }
+    .hero-card h3{ margin:0 0 10px; font-size:16px; letter-spacing:.3px; text-transform: uppercase; opacity:.9 }
+    .quick-links{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; }
+    .quick-links a{ display:flex; gap:10px; align-items:center; padding:12px 14px; border-radius:14px; background: var(--glass); border:1px solid var(--border); text-decoration:none; color:var(--text); }
+    .quick-links a b{ font-size:14px; }
+    .quick-links a small{ color:var(--muted); display:block; margin-top:2px; }
+
+    /* Sections */
+    section{ padding: 70px 0; }
+    #course{ background: var(--acc-2); color:#15343a; }
+    #course .section-title{ color:#0f2f2a; }
+    #course .card{ background: #ffe7d2; border-color:#ffd2ae; color:#1f2b2a; }
+    #submissions{ background: #f7faf9; color:#0f2f2a; }
+    #submissions .card{ background:#ffffff; border-color:#e2e8f0; color:#1f2937; }
+    .section-title{ font-size: clamp(20px, 2.6vw, 30px); margin:0 0 16px; }
+    .section-lead{ color:var(--muted); margin:0 0 28px; max-width: 70ch; }
+
+    /* Cards */
+    .cards{ display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:18px; }
+    .card{ background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border:1px solid var(--border); border-radius: var(--radius); padding:18px; box-shadow: var(--shadow); }
+    .card h4{ margin:0 0 8px; font-size:16.5px; }
+    .card p{ margin:0; color:var(--muted); }
+
+    .pill{ display:inline-block; font-size:12px; padding:6px 10px; border-radius:999px; background:var(--glass); border:1px solid var(--border); margin-bottom:10px; }
+
+    /* Timeline list */
+    .timeline{ display:grid; gap:14px; }
+    .timeline li{ list-style:none; padding:14px; border:1px dashed var(--border); border-radius:14px; background: var(--glass); }
+    .timeline h5{ margin:0 0 8px; font-size:15px; }
+    .meta{ font-size:12.5px; color:var(--muted); }
+
+    /* Footer */
+    footer{ border-top:1px solid var(--border); padding:30px 0 60px; color:var(--muted); text-align:center; }
+
+    /* Responsive */
+    @media (max-width: 880px){
+      .hero .grid{ grid-template-columns: 1fr; }
+      .quick-links{ grid-template-columns: 1fr; }
+    }
+  /* Hero peach panel to match reference */
+    .hero::after{
+      content:""; position:absolute; left:0; right:0; bottom:-60px; height:220px; background: var(--acc-2);
+      clip-path: polygon(0 25%, 60% 25%, 60% 100%, 0 100%);
+      z-index:-1;
+    }
+
+    /* Buttons (for future use) */
+    .btn{ display:inline-block; padding:12px 16px; border-radius:12px; background:var(--acc-1); color:white; text-decoration:none; font-weight:700; }
+    .btn:hover{ filter:brightness(1.05); }
+
+    /* Footer as violet band */
+    footer{ background: var(--acc-3); color:#ffffff; }
+  </style>
+</head>
+<body>
+  <!-- ambient gradient blobs -->
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
+  <header>
+    <div class="wrap nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <strong>Josefine Roos</strong><br>
+          <span>Generative AI for Work & Research</span>
+        </div>
+      </div>
+      <nav aria-label="Primary">
+        <a href="#about">About me</a>
+        <a href="#course">About the course</a>
+        <a href="#submissions">Weekly submissions</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="grid">
+          <div>
+            <h1 class="h-title">AI for meaningful work & rigorous research</h1>
+            <p class="h-sub">I design and lead learning experiences in complex contexts and bring AI tools into evidence, communication, and operations. This page tracks my journey through the <em>Generative AI for Work & Research</em> course and showcases weekly deliverables.</p>
+            <div class="chips">
+              <span class="chip">Conflict sensitivity & systems thinking</span>
+              <span class="chip">Instructional design</span>
+              <span class="chip">No‑code automations</span>
+              <span class="chip">Data & text analysis</span>
+            </div>
+          </div>
+
+          <aside class="hero-card" aria-labelledby="quicklinks">
+            <h3 id="quicklinks">Quick links</h3>
+            <div class="quick-links">
+              <a href="https://www.linkedin.com/in/josefine-roos-a9882329/" target="_blank" rel="noopener">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.22 8.32h4.56V24H.22zM8.77 8.32h4.37v2.13h.06c.61-1.16 2.11-2.38 4.34-2.38 4.64 0 5.49 3.06 5.49 7.04V24h-4.76v-6.98c0-1.66-.03-3.8-2.32-3.8-2.33 0-2.68 1.82-2.68 3.69V24H8.77z" fill="currentColor"/></svg>
+                <div><b>LinkedIn</b><small>Connect & follow updates</small></div>
+              </a>
+              <a href="https://www.adaptpeacebuilding.org" target="_blank" rel="noopener">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.54 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z" fill="currentColor"/></svg>
+                <div><b>ADAPT Peacebuilding</b><small>Professional portfolio</small></div>
+              </a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- About me -->
+    <section id="about">
+      <div class="wrap">
+        <h2 class="section-title">About me</h2>
+        <p class="section-lead">Learning designer, facilitator, and coach with 15+ years of experience building transformational programs for UN agencies, INGOs, and cross‑sector partners. I work across Africa, Asia, Latin America, Europe, and the U.S., focusing on conflict sensitivity, leadership, and systems‑aware change. Fluent in English, Spanish, and Swedish.</p>
+
+        <div class="cards" role="list">
+          <article class="card" role="listitem">
+            <span class="pill">Current focus</span>
+            <h4>Conflict Sensitivity Hub (Ethiopia)</h4>
+            <p>Designing national capacity‑strengthening programs and blended learning (in‑person + asynchronous) with coaching, peer learning, and applied practice.</p>
+          </article>
+          <article class="card" role="listitem">
+            <span class="pill">Select collaborations</span>
+            <h4>UNSSC, OSCE, USAID, CEGOS</h4>
+            <p>Courses and workshops on conflict sensitivity, leadership, communication, and resilience. Cohort‑based and trauma‑informed facilitation.</p>
+          </article>
+          <article class="card" role="listitem">
+            <span class="pill">Expertise</span>
+            <h4>Instructional design & systems thinking</h4>
+            <p>Blended learning, cohort models, peer mentoring, evaluation‑ready designs, and AI‑enabled tooling for content creation, data workflows, and knowledge synthesis.</p>
+          </article>
+        </div>
+
+        <ul class="timeline" aria-label="Highlights">
+          <li>
+            <h5>UN Verification Mission in Colombia</h5>
+            <div class="meta">Peacebuilding support • Gender focal point • Dialogue facilitation</div>
+          </li>
+          <li>
+            <h5>CDA Collaborative (Myanmar)</h5>
+            <div class="meta">Conflict sensitivity mainstreaming • Donor coordination • Fellowship design</div>
+          </li>
+          <li>
+            <h5>Education</h5>
+            <div class="meta">MA International Affairs – Columbia SIPA • MA International Relations – St Andrews</div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- About the course -->
+    <section id="course">
+      <div class="wrap">
+        <h2 class="section-title">About the course</h2>
+        <p class="section-lead">An 8‑week live cohort program focused on <strong>no‑code AI tools for task automation</strong> and research workflows. Weekly workshops, help sessions, community forums, personalized feedback, capstone coaching, and a shareable certificate.</p>
+
+        <div class="cards">
+          <article class="card">
+            <h4>Modules overview</h4>
+            <p>
+              <strong>1.</strong> Websites, documents & presentations • LLM basics, Markdown/LaTeX/HTML, no‑code sites.<br>
+              <strong>2.</strong> AI‑automated data analysis • Code Interpreter, dashboards, file pipelines, reports.<br>
+              <strong>3.</strong> GenAI for research & text analysis • Literature search, classification, sentiment, knowledge maps, summarization.<br>
+              <strong>4.</strong> Custom GPTs & chatbots • Context windows, RAG, Botpress, knowledge integration.<br>
+              <strong>5.</strong> AI for task automation • Agents, email flows, browser control, orchestration.<br>
+              <strong>6.</strong> Communication & outreach • Visuals, video abstracts, tailored summaries, content scheduling.<br>
+              <strong>7.</strong> Capstone & showcase • Progress checks, peer feedback, final presentation.
+            </p>
+          </article>
+
+          <article class="card">
+            <h4>Bootcamp features</h4>
+            <p>Weekly live workshops • Live help sessions • Private community • Personalized feedback • Capstone coaching • Certificate • Lifetime tutorial access.</p>
+          </article>
+
+          <article class="card">
+            <h4>Grading & attendance</h4>
+            <p>Quizzes 15% • Assignments 35% • Participation 10% • Final project 40% • Passing 80% • Attend ≥5 workshops for full credit.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Weekly submissions -->
+    <section id="submissions">
+      <div class="wrap">
+        <h2 class="section-title">My weekly submissions</h2>
+        <p class="section-lead">Placeholder cards for each week. We’ll add links as projects are published.</p>
+
+        <div class="cards">
+          <article class="card">
+            <span class="pill">Week 1</span>
+            <h4>LLM fundamentals & research website</h4>
+            <p>Generate structured research pages and a minimal site. <em><a href="#" aria-disabled="true" onclick="return false;">Link coming soon</a></em></p>
+          </article>
+          <article class="card">
+            <span class="pill">Week 2</span>
+            <h4>Automated data analysis</h4>
+            <p>Notebook‑style reporting and dashboard prototype. <em>Link coming soon</em></p>
+          </article>
+          <article class="card">
+            <span class="pill">Week 3</span>
+            <h4>Text mining & literature synthesis</h4>
+            <p>Knowledge map + summarization workflow. <em>Link coming soon</em></p>
+          </article>
+          <article class="card">
+            <span class="pill">Week 4</span>
+            <h4>Custom GPT / research assistant</h4>
+            <p>Task‑specific assistant with retrieval. <em>Link coming soon</em></p>
+          </article>
+          <article class="card">
+            <span class="pill">Week 5</span>
+            <h4>Automation & agents</h4>
+            <p>Email responses and browser flows. <em>Link coming soon</em></p>
+          </article>
+          <article class="card">
+            <span class="pill">Week 6</span>
+            <h4>Communication & outreach</h4>
+            <p>Figures, video abstracts, and audience‑specific summaries. <em>Link coming soon</em></p>
+          </article>
+          <article class="card">
+            <span class="pill">Week 7</span>
+            <h4>Capstone project</h4>
+            <p>Integrated solution and public showcase. <em>Link coming soon</em></p>
+          </article>
+          <article class="card">
+            <span class="pill">Resources</span>
+            <h4>Reading & tools</h4>
+            <p>Curated references, prompts, and utilities for replicable workflows. <em>Link coming soon</em></p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>© <span id="y"></span> Josefine Roos · Built with semantic HTML, modern CSS, and a love for elegant gradients. No frameworks.</p>
+    </div>
+  </footer>
+
+  <script>
+    // year stamp
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
